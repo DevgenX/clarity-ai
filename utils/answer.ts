@@ -1,6 +1,10 @@
 import { OpenAIModel, Source } from "@/types";
 import endent from "endent";
-import { createParser, ParsedEvent, ReconnectInterval } from "eventsource-parser";
+import {
+  createParser,
+  ParsedEvent,
+  ReconnectInterval,
+} from "eventsource-parser";
 
 const createTextDavinciPrompt = (query: string, sources: Source[]) => {
   return endent`INSTRUCTIONS
@@ -8,7 +12,9 @@ const createTextDavinciPrompt = (query: string, sources: Source[]) => {
   ###
   SOURCES
   
-  ${sources.map((source, idx) => `Source [${idx + 1}]:\n${source.text}`).join("\n\n")}
+  ${sources
+    .map((source, idx) => `Source [${idx + 1}]:\n${source.text}`)
+    .join("\n\n")}
   ###
   QUERY
   ${query}
@@ -22,7 +28,9 @@ const createTextCuriePrompt = (query: string, sources: Source[]) => {
   ###
   SOURCES
   
-  ${sources.map((source, idx) => `Source [${idx + 1}]:\n${source.text}`).join("\n\n")}
+  ${sources
+    .map((source, idx) => `Source [${idx + 1}]:\n${source.text}`)
+    .join("\n\n")}
   ###
   QUERY
   ${query}
@@ -36,7 +44,9 @@ const createCodeDavinciPrompt = (query: string, sources: Source[]) => {
   ###
   SOURCES
   
-  ${sources.map((source, idx) => `Source [${idx + 1}]:\n${source.text}`).join("\n\n")}
+  ${sources
+    .map((source, idx) => `Source [${idx + 1}]:\n${source.text}`)
+    .join("\n\n")}
   ###
   QUERY
   ${query}
@@ -44,7 +54,11 @@ const createCodeDavinciPrompt = (query: string, sources: Source[]) => {
   ANSWER`;
 };
 
-export const createPrompt = (query: string, sources: Source[], model: OpenAIModel) => {
+export const createPrompt = (
+  query: string,
+  sources: Source[],
+  model: OpenAIModel
+) => {
   switch (model) {
     case OpenAIModel.DAVINCI_TEXT:
       return createTextDavinciPrompt(query, sources);
@@ -57,14 +71,18 @@ export const createPrompt = (query: string, sources: Source[], model: OpenAIMode
   }
 };
 
-export const OpenAIStream = async (prompt: string, model: OpenAIModel, apiKey: string) => {
+export const OpenAIStream = async (
+  prompt: string,
+  model: OpenAIModel,
+  apiKey: string
+) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
   const res = await fetch("https://api.openai.com/v1/completions", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
+      Authorization: `Bearer ${apiKey}`,
     },
     method: "POST",
     body: JSON.stringify({
@@ -77,8 +95,8 @@ export const OpenAIStream = async (prompt: string, model: OpenAIModel, apiKey: s
       presence_penalty: 0,
       n: 1,
       stop: ["###"],
-      stream: true
-    })
+      stream: true,
+    }),
   });
 
   if (res.status !== 200) {
@@ -112,7 +130,7 @@ export const OpenAIStream = async (prompt: string, model: OpenAIModel, apiKey: s
       for await (const chunk of res.body as any) {
         parser.feed(decoder.decode(chunk));
       }
-    }
+    },
   });
 
   return stream;

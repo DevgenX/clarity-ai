@@ -9,15 +9,24 @@ interface AnswerProps {
   onReset: () => void;
 }
 
-export const Answer: FC<AnswerProps> = ({ searchQuery, answer, done, onReset }) => {
+export const Answer: FC<AnswerProps> = ({
+  searchQuery,
+  answer,
+  done,
+  onReset,
+}) => {
   return (
     <div className="max-w-[800px] space-y-4 py-16 px-8 sm:px-24 sm:pt-16 pb-32">
-      <div className="overflow-auto text-2xl sm:text-4xl">{searchQuery.query}</div>
+      <div className="overflow-auto text-2xl sm:text-4xl">
+        {searchQuery.query}
+      </div>
 
       <div className="border-b border-zinc-800 pb-4">
         <div className="text-md text-blue-500">Answer</div>
 
-        <div className="mt-2 overflow-auto">{replaceSourcesWithLinks(answer, searchQuery.sourceLinks)}</div>
+        <div className="mt-2 overflow-auto">
+          {replaceSourcesWithLinks(answer, searchQuery.sourceLinks)}
+        </div>
       </div>
 
       {done && (
@@ -26,10 +35,7 @@ export const Answer: FC<AnswerProps> = ({ searchQuery, answer, done, onReset }) 
             <div className="text-md text-blue-500">Sources</div>
 
             {searchQuery.sourceLinks.map((source, index) => (
-              <div
-                key={index}
-                className="mt-1 overflow-auto"
-              >
+              <div key={index} className="mt-1 overflow-auto">
                 {`[${index + 1}] `}
                 <a
                   className="hover:cursor-pointer hover:underline"

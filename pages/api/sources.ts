@@ -3,13 +3,20 @@ import { Readability } from "@mozilla/readability";
 import * as cheerio from "cheerio";
 import { JSDOM } from "jsdom";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { cleanSourceText, getSourceCount, shortenSourceText } from "../../utils/sources";
+import {
+  cleanSourceText,
+  getSourceCount,
+  shortenSourceText,
+} from "../../utils/sources";
 
 type Data = {
   sources: Source[];
 };
 
-const searchHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const searchHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) => {
   try {
     const { query, model } = req.body as {
       query: string;
@@ -41,10 +48,19 @@ const searchHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) =>
     const filteredLinks = links.filter((link, idx) => {
       const domain = new URL(link).hostname;
 
-      const excludeList = ["google", "facebook", "twitter", "instagram", "youtube", "tiktok"];
+      const excludeList = [
+        "google",
+        "facebook",
+        "twitter",
+        "instagram",
+        "youtube",
+        "tiktok",
+      ];
       if (excludeList.some((site) => domain.includes(site))) return false;
 
-      return links.findIndex((link) => new URL(link).hostname === domain) === idx;
+      return (
+        links.findIndex((link) => new URL(link).hostname === domain) === idx
+      );
     });
 
     const finalLinks = filteredLinks.slice(0, sourceCount);

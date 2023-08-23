@@ -2,7 +2,7 @@ import { OpenAIModel } from "@/types";
 import { OpenAIStream } from "@/utils/answer";
 
 export const config = {
-  runtime: "edge"
+  runtime: "edge",
 };
 
 const handler = async (req: Request): Promise<Response> => {

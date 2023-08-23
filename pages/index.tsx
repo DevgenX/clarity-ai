@@ -6,26 +6,20 @@ import Head from "next/head";
 import { useState } from "react";
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState<SearchQuery>({ query: "", sourceLinks: [] });
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>({
+    query: "",
+    sourceLinks: [],
+  });
   const [answer, setAnswer] = useState<string>("");
   const [done, setDone] = useState<boolean>(false);
 
   return (
     <>
       <Head>
-        <title>Clarity AI</title>
-        <meta
-          name="description"
-          content="AI-powered search."
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-        <link
-          rel="icon"
-          href="/favicon.png"
-        />
+        <title>IdiotGPT</title>
+        <meta name="description" content="AI-powered search." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="h-screen overflow-auto bg-[#18181C] text-[#D4D4D8]">
         <a

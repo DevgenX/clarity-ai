@@ -9,7 +9,11 @@ interface SearchProps {
   onDone: (done: boolean) => void;
 }
 
-export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) => {
+export const Search: FC<SearchProps> = ({
+  onSearch,
+  onAnswerUpdate,
+  onDone,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [query, setQuery] = useState<string>("");
@@ -33,9 +37,9 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
     const response = await fetch("/api/sources", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query, model })
+      body: JSON.stringify({ query, model }),
     });
 
     if (!response.ok) {
@@ -54,9 +58,9 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
       const response = await fetch("/api/answer", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt, model, apiKey })
+        body: JSON.stringify({ prompt, model, apiKey }),
       });
 
       if (!response.ok) {
@@ -81,6 +85,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         const chunkValue = decoder.decode(value);
+
         onAnswerUpdate(chunkValue);
       }
 
@@ -153,7 +158,7 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
         <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center space-y-6 px-3 pt-32 sm:pt-64">
           <div className="flex items-center">
             <IconBolt size={36} />
-            <div className="ml-1 text-center text-4xl">Clarity</div>
+            <div className="ml-1 text-center text-4xl">IdiotGPT</div>
           </div>
 
           {apiKey.length === 51 ? (
@@ -178,7 +183,9 @@ export const Search: FC<SearchProps> = ({ onSearch, onAnswerUpdate, onDone }) =>
               </button>
             </div>
           ) : (
-            <div className="text-center text-[#D4D4D8]">Please enter your OpenAI API key.</div>
+            <div className="text-center text-[#D4D4D8]">
+              Please enter your OpenAI API key.
+            </div>
           )}
 
           <button
